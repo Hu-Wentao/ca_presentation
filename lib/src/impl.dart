@@ -3,7 +3,7 @@
 // Date  : 2020/3/11
 // Time  : 13:34
 
-import 'package:ca_presentation/abs.dart';
+import 'package:ca_presentation/src/abs.dart';
 import 'package:flutter/widgets.dart';
 
 /// 防止AbsReadyModel被识别为AbsViewModel,
@@ -17,7 +17,7 @@ class View<VM extends ViewModel> extends AbsView<VM> {
 
   View({
     Key key,
-    this.builder,
+    @required this.builder,
   }) : super(key: key);
 
   @override
