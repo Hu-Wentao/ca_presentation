@@ -1,8 +1,7 @@
 name: ca_presentation
 description: Presentation layer state management solution for &quot;clean architecture&quot; (based on dependency injection package &quot;get it&quot;)
 version: 2.4.0
-author: hu.wentao@outlook.com
-homepage:
+homepage: https://github.com/Hu-Wentao
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
