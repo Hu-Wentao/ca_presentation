@@ -91,8 +91,11 @@ abstract class _AbsViewModel extends ChangeNotifier {
   /// ```
   @protected
   bool get checkAndSetBlocking {
-    if (!isBlocking) setVMBlocking;
-    return isBlocking;
+    if (!isBlocking) {
+      setVMBlocking;
+      return false;
+    }
+    return true;
   }
 
   /// <组合> 通知监听者的同时,将VM设为Idle
