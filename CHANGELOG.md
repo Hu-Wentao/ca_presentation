@@ -1,3 +1,7 @@
+## [2.4.2] - 2020/3/13 15:34
+
+* fix(ViewModel): 为AbsViewModel添加初始化_vmState的构造,修复了继承自ViewModel的类无法执行事件的BUG
+
 ## [2.4.1] - 2020/3/13 9:25
 
 * feat(ViewModel): 为ViewModel添加isBlocking方法,为 checkAndSetBlocking添加 @protected注解
