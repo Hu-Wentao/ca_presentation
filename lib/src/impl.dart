@@ -33,14 +33,9 @@ class _ViewState<VM extends ViewModel, V extends View<VM>>
   }
 }
 
-
-
-
-
 ///
 /// 带有 "signalsReady: true" 的基础Model
-abstract class ReadyViewModel extends _AbsViewModel
-    implements WillSignalReady {
+abstract class ReadyViewModel extends _AbsViewModel implements WillSignalReady {
   // 继承类在执行构造的时候, 会自动执行本类构造,即执行 init()方法
   ReadyViewModel() : super(VmState.unknown) {
     init();
