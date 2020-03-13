@@ -7,7 +7,8 @@ import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
 
-typedef ViewBuilder<VM extends AbsViewModel> = Widget Function(BuildContext ctx, VM m);
+typedef ViewBuilder<VM extends AbsViewModel> = Widget Function(
+    BuildContext ctx, VM m);
 
 ///-----------------------------------------------------------------------------
 ///
@@ -20,8 +21,8 @@ abstract class AbsView<VM extends AbsViewModel> extends StatefulWidget {
 /// 抽象SlViewSate
 /// [VM] View所绑定的ViewModel
 /// [V] ViewState所绑定的View
-abstract class AbsViewState<VM extends AbsViewModel,
-V extends AbsView<VM>> extends State<V> {
+abstract class AbsViewState<VM extends AbsViewModel, V extends AbsView<VM>>
+    extends State<V> {
   /// ViewState初始化时
   @mustCallSuper
   void onStateInit() {
@@ -51,7 +52,7 @@ V extends AbsView<VM>> extends State<V> {
 }
 
 ///-----------------------------------------------------------------------------
-/// VM 的状态
+/// ViewModel 的状态
 /// [unknown]  只有需要 异步init()的VM才需要这个状态
 /// [idle]     非异步VM的初始状态, 或者异步init的VM 初始化完成后的状态
 /// [blocking] VM正在执行某个方法, 并且尚未执行完毕, 此时VM已阻塞,将忽略任何方法调用
@@ -66,12 +67,16 @@ enum VmState {
 abstract class AbsViewModel extends ChangeNotifier {
   VmState _vmState = VmState.unknown;
 
+  ///
+  /// VM是否处于锁定状态
+  bool get isBlocking => _vmState != VmState.idle;
+
   /// 检查是否处于阻塞状态,如果是,则返回true,
-  /// 如果否,则同时设置VM状态为Running
+  /// 如果否,则同时设置VM状态为 [VmState.blocking]
   ///
   /// ```dart
   ///   void incrementCounter() {
-  ///     // check里面同时执行了 setVMRunning;
+  ///     // check里面同时执行了 setVMBlocking;
   ///     if (checkAndSetBlocking) return;
   ///
   ///     ... method body ...
@@ -79,8 +84,8 @@ abstract class AbsViewModel extends ChangeNotifier {
   ///     notifyAndSetIdle;
   ///   }
   /// ```
+  @protected
   bool get checkAndSetBlocking {
-    final isBlocking = _vmState != VmState.idle;
     if (!isBlocking) setVMBlocking;
     return isBlocking;
   }
@@ -101,7 +106,8 @@ abstract class AbsViewModel extends ChangeNotifier {
 ///-----------------------------------------------------------------------------
 ///
 /// 带有 "signalsReady: true" 的基础Model
-abstract class AbsReadyViewModel extends AbsViewModel implements WillSignalReady {
+abstract class AbsReadyViewModel extends AbsViewModel
+    implements WillSignalReady {
   // 继承类在执行构造的时候, 会自动执行本类构造,即执行 init()方法
   AbsReadyViewModel() {
     init();

@@ -1,3 +1,8 @@
+## [2.4.1] - 2020/3/13 9:25
+
+* feat(ViewModel): 为ViewModel添加isBlocking方法,为 checkAndSetBlocking添加 @protected注解
+* doc(ViewModel): 添加注释
+
 ## [2.4.0] - 2020/3/11/ 17:06
 
 * 重构代码, 并去除所有类名中的"Sl",使用Abs取代Base (Sl意为: Service Locator)

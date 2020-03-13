@@ -7,7 +7,8 @@ import 'package:ca_presentation/src/abs.dart';
 import 'package:flutter/widgets.dart';
 
 /// 防止AbsReadyModel被识别为AbsViewModel,
-/// 因此新建ViewModel类
+/// 因此新建ViewModel类,
+/// 适用于无需耗时进行初始化的ViewModel
 class ViewModel extends AbsViewModel {}
 
 ///
