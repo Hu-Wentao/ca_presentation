@@ -68,16 +68,17 @@ enum VmState {
 ///
 /// 抽象ViewModel
 abstract class _AbsViewModel extends ChangeNotifier {
-  VmState _vmState;
+  VmState _vmState = VmState.unknown;
 
-  _AbsViewModel(this._vmState);
+//  _AbsViewModel([this._vmState = VmState.unknown]);
 
   ///
   /// VM是否处于锁定状态
   bool get isBlocking => _vmState != VmState.idle;
 
-  /// 检查是否处于阻塞状态,如果是,则返回true,
-  /// 如果否,则同时设置VM状态为 [VmState.blocking]
+  /// 检查是否处于阻塞状态,
+  /// 如果是,则返回true,
+  /// 如果否,返回false,同时设置VM状态为 [VmState.blocking]
   ///
   /// ```dart
   ///   void incrementCounter() {
@@ -91,11 +92,9 @@ abstract class _AbsViewModel extends ChangeNotifier {
   /// ```
   @protected
   bool get checkAndSetBlocking {
-    if (!isBlocking) {
-      setVMBlocking;
-      return false;
-    }
-    return true;
+    if (isBlocking) return true;
+    setVMBlocking;
+    return false;
   }
 
   /// <组合> 通知监听者的同时,将VM设为Idle

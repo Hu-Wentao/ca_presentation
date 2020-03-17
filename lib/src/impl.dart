@@ -8,7 +8,10 @@ part of 'abs.dart';
 ///
 /// 适用于无需进行耗时初始化的ViewModel
 abstract class ViewModel extends _AbsViewModel {
-  ViewModel() : super(VmState.idle);
+  ViewModel(){
+    setVMIdle;
+  }
+//  ViewModel() : super(VmState.idle);
 }
 
 ///
@@ -33,11 +36,11 @@ class _ViewState<VM extends ViewModel, V extends View<VM>>
   }
 }
 
-///
+/// todo 初步推断, 是因为 WillSignalReady 不能与 带有父类构造的类同时出现
 /// 带有 "signalsReady: true" 的基础Model
 abstract class ReadyViewModel extends _AbsViewModel implements WillSignalReady {
   // 继承类在执行构造的时候, 会自动执行本类构造,即执行 init()方法
-  ReadyViewModel() : super(VmState.unknown) {
+  ReadyViewModel(){
     init();
   }
 
