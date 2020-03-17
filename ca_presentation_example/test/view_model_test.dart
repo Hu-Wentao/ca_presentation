@@ -12,25 +12,32 @@ main() async {
     await setUpDi();
   });
 
-  test('测试 counter', () async {
-
+  test('测试 CounterViewModel', () async {
     print('开始: ${sl<CounterViewModel>().counter}');
     sl<CounterViewModel>().incrementCounter();
     print('结束: ${sl<CounterViewModel>().counter}');
   });
 
 
-  test('测试 Counter2ViewModel', () async {
+  test('\n测试 Counter2ViewModel', () async {
     print('开始: ${sl<Counter2ViewModel>().counter}');
-    await sl.allReady();
+
+    // 如果要确保点击有效, 则需要isReady<T>();或者 allReady();
+    await sl.isReady<Counter2ViewModel>();
     sl<Counter2ViewModel>().incrementCounter();
     print('结束: ${sl<Counter2ViewModel>().counter}');
   });
 
 
-  test('测试 counter3', () async {
+  test('\n测试 Counter3ViewModel', () async {
     print('开始: ${sl<Counter3ViewModel>().counter}');
     sl<Counter3ViewModel>().incrementCounter();
     print('结束: ${sl<Counter3ViewModel>().counter}');
+  });
+
+  test('\n测试 Counter4ViewModel', () async {
+    print('开始: ${sl<Counter4ViewModel>().counter}');
+    sl<Counter4ViewModel>().incrementCounter();
+    print('结束: ${sl<Counter4ViewModel>().counter}');
   });
 }

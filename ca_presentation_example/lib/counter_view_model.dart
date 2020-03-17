@@ -1,10 +1,29 @@
 import 'package:ca_presentation_example/register_moduls.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ca_presentation/ca_presentation.dart';
 
 ///
-/// 直接继承自ViewModel
+/// 本类测试: 直接继承自ViewModel, 并且使用 lazySingleton注解
+/// 测试结果证明: 继承自ViewModel的类不仅可以singleton,还可以使用 lazy..
+@lazySingleton
+class Counter4ViewModel extends ViewModel {
+  final Test2 t;
+  int _c = 4;
+
+  Counter4ViewModel(this.t);
+
+  int get counter => _c;
+
+  void incrementCounter() {
+    print('Counter4ViewModel.incrementCounter +${t.number} block: $isBlocking');
+    if (checkAndSetBlocking) return;
+    _c += t.number;
+    notifyAndSetIdle;
+  }
+}
+///
+/// 本类测试: 直接继承自ViewModel
+/// 结果证明: 可以使用 singleton注解
 @singleton
 class Counter3ViewModel extends ViewModel {
   final Test2 t;
@@ -15,9 +34,8 @@ class Counter3ViewModel extends ViewModel {
   int get counter => _c;
 
   void incrementCounter() {
-    print('Counter3ViewModel.incrementCounter isBlocking: $isBlocking');
+    print('Counter3ViewModel.incrementCounter +${t.number} block: $isBlocking');
     if (checkAndSetBlocking) return;
-    print('Counter3ViewModel.incrementCounter + ${t.number}');
     _c += t.number;
     notifyAndSetIdle;
   }
@@ -29,9 +47,8 @@ class Counter3ViewModel extends ViewModel {
 ///  改为使用 lazySingleton后居然没有报原来的错误了
 ///  还是报错, 又添加了  implements WillSignalReady
 ///
-/// 最终结果: ViewModel必须使用 @singleton, 否则会报错!
+/// 结果证明: ReadyViewModel必须使用 @singleton, 否则会报错!
 @singleton
-//@lazySingleton
 class Counter2ViewModel extends ReadyViewModel {
   final Test2 t;
   int _counter = 2;
@@ -47,7 +64,7 @@ class Counter2ViewModel extends ReadyViewModel {
   int get counter => _counter;
 
   void incrementCounter() {
-    print('Counter2ViewModel.incrementCounter --- block: $isBlocking');
+    print('Counter2ViewModel.incrementCounter +${t.number} block: $isBlocking');
     if (checkAndSetBlocking) return;
 
     /// todo 在这里直接抛出异常并不合适,应当先判断
@@ -69,9 +86,8 @@ class CounterViewModel extends ReadyViewModel {
 
   /// 操作数据的方法
   void incrementCounter() {
-    print('CounterViewModel.incrementCounter --- block: $isBlocking');
+    print('CounterViewModel.incrementCounter +${t.number} block: $isBlocking');
     if (checkAndSetBlocking) return;
-    print('CounterViewModel.incrementCounter t: ${t.number}');
     counter += t.number;
     setVMIdle;
     notifyListeners();

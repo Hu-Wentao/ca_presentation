@@ -16,6 +16,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerFactory<Test>(() => test);
   final test3 = await needInitPlugs.testThree;
   g.registerFactory<Test3<String>>(() => test3);
+  g.registerLazySingleton<Counter4ViewModel>(
+      () => Counter4ViewModel(g<Test2>()));
 
   //Eager singletons must be registered in the right order
   g.registerSingleton<Counter3ViewModel>(Counter3ViewModel(g<Test2>()));
