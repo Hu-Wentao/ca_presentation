@@ -3,14 +3,13 @@
 // Date  : 2020/3/12
 // Time  : 23:47
 
-import 'package:ca_presentation_example/main.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
-/// 一些第三方插件
+/// 一些第三方插件(例如 Hive）
 /// (特别是一些需要耗时初始化的插件)
 @registerModule
-abstract class NeedInitPlugs {
+abstract class RegisterModule {
   /// 测试3, 这里用 preResolve, 可以生成await 代码 <<成功>>
   @preResolve
   Future<Test2> get testTwo => Test2.numberTwo();
@@ -19,9 +18,11 @@ abstract class NeedInitPlugs {
   Future<Test> get testOne => Test.numberOne();
 
   @preResolve
+  @Named('str') // 可选
   Future<Test3<String>> get testThree => Test3.numberThree();
-//  @preResolve
-//  Future<Test3<int>> get testThreeInt => Test3.numberThree();
+
+  @preResolve
+  Future<Test3<int>> get testThreeInt => Test3.numberThree();
 }
 
 /// 测试2, 可能应当直接在Test类上标注
@@ -31,17 +32,11 @@ abstract class NeedInitPlugs {
 //  修改为 @lazy.., 提示Test类没有 Ready, 于是又加上 impl..Will...
 //  又添加外
 /// 经过上面的多次尝试, 已经说明了: 异步返回结果的类, 只能使用registerModule+preResolve解决, 而不能自己添加注解
-//@lazySingleton
 class Test implements WillSignalReady {
   final int number;
   Test(this.number);
-//  @factoryMethod
-  static Future<Test> numberOne() async {
-    return Future.delayed(const Duration(seconds: 1)).then((_) => Test(1));
-//    var r = Future.delayed(const Duration(seconds: 1)).then((_) => Test(1));
-//    sl.signalReady((r as Test));
-//    return r;
-  }
+  static Future<Test> numberOne() async =>
+      Future.delayed(const Duration(seconds: 1)).then((_) => Test(1));
 }
 
 //@lazySingleton
@@ -57,14 +52,12 @@ class Test2 implements WillSignalReady {
 }
 
 /// test3 类仅使用 registerModule 来注册
-//@lazySingleton
 class Test3<T> implements WillSignalReady {
   final T msg;
   final int number;
 
   Test3(this.number, this.msg);
 
-//  @factoryMethod
   static Future<Test3<T>> numberThree<T>() async {
     T tt;
     return Future.delayed(const Duration(seconds: 1))

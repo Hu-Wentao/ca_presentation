@@ -13,31 +13,56 @@ main() async {
   });
 
   test('测试 CounterViewModel', () async {
-    print('开始: ${sl<CounterViewModel>().counter}');
+    var start = sl<CounterViewModel>().counter;
+    print('开始: $start');
+
     sl<CounterViewModel>().incrementCounter();
-    print('结束: ${sl<CounterViewModel>().counter}');
+
+    var end = sl<CounterViewModel>().counter;
+    print('结束: $end');
+
+    expect(start, 1);
+    expect(end - start, 0);
   });
 
-
   test('\n测试 Counter2ViewModel', () async {
-    print('开始: ${sl<Counter2ViewModel>().counter}');
+    var start = sl<Counter2ViewModel>().counter;
+    print('开始: $start');
 
     // 如果要确保点击有效, 则需要isReady<T>();或者 allReady();
     await sl.isReady<Counter2ViewModel>();
     sl<Counter2ViewModel>().incrementCounter();
-    print('结束: ${sl<Counter2ViewModel>().counter}');
+
+    var end = sl<Counter2ViewModel>().counter;
+    print('结束: $end');
+
+    expect(start, 2);
+    expect(end - start, 2);
   });
 
-
   test('\n测试 Counter3ViewModel', () async {
-    print('开始: ${sl<Counter3ViewModel>().counter}');
+    var start = sl<Counter3ViewModel>().counter;
+    print('开始: $start');
+
     sl<Counter3ViewModel>().incrementCounter();
-    print('结束: ${sl<Counter3ViewModel>().counter}');
+
+    var end = sl<Counter3ViewModel>().counter;
+    print('结束: $end');
+
+    expect(start, 3);
+    expect(end - start, 2);
   });
 
   test('\n测试 Counter4ViewModel', () async {
-    print('开始: ${sl<Counter4ViewModel>().counter}');
+    var start = sl<Counter4ViewModel>().counter;
+    print('开始: $start');
+
     sl<Counter4ViewModel>().incrementCounter();
-    print('结束: ${sl<Counter4ViewModel>().counter}');
+
+    var end = sl<Counter4ViewModel>().counter;
+    print('结束: $end');
+
+    expect(start, 4);
+    expect(end - start, 2);
   });
 }
